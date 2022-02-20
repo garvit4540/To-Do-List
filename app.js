@@ -8,19 +8,20 @@ const _ = require("lodash");
 const app=express();
 app.set('view engine','ejs');
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(expres.static("public"));
-mongoose.connect("mongodb://localhost:27017/todolistDB",{useNewUrlParser:true});
+app.use(express.static("public"));
+mongoose.connect("mongodb+srv://admin-garvit4540:bumbleBee02@cluster0.fjmj4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",{useNewUrlParser:true});
 
 const itemsSchema={
     name: String
 }
-const item1=newItem({
+const Item=mongoose.model("Item",itemsSchema);
+const item1=new Item({
     name: "Welcome to your todolist!"
 });
-const item1=newItem({
+const item2=new Item({
     name: "To add new item, hit +"
 });
-const item1=newItem({
+const item3=new Item({
     name: "<--, By this, You can mark the task as complete"
 });
 const defaultItems=[item1,item2,item3];
@@ -32,7 +33,7 @@ const listSchema={
 const List=mongoose.model("list",listSchema);
 
 app.get("/",function(req,res){
-    Items.find({},function(err,foundItems){
+    Item.find({},function(err,foundItems){
         if(foundItems.length===0){
             Item.insertMany(defaultItems,function(err){
                 if(err){
